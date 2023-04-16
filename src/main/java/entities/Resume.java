@@ -15,6 +15,7 @@ import java.time.LocalDate;
 public class Resume {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     protected Long id;
     @Column(name = "name")
     private String name;
@@ -40,4 +41,7 @@ public class Resume {
     private String skills;
     @Column(name = "education")
     private String education;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "applicants_id")
+    private Applicant applicant;
 }

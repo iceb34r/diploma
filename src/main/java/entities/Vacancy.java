@@ -14,6 +14,7 @@ import javax.persistence.*;
 public class Vacancy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     protected Long id;
     @Column(name = "position")
     private String position;
@@ -23,4 +24,7 @@ public class Vacancy {
     private String schedule;
     @Column(name = "description")
     private String description;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "employers_id")
+    private Employer employer;
 }
