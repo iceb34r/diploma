@@ -1,4 +1,4 @@
-package entities;
+package com.grisha.security.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +22,7 @@ public class Employer {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "users_id")
     private User user;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "employers")
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "vacancys_id")
     private Set<Vacancy> vacancies;
 }

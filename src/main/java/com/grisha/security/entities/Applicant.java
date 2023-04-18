@@ -1,4 +1,4 @@
-package entities;
+package com.grisha.security.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

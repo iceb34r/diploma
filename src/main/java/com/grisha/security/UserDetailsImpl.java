@@ -1,6 +1,6 @@
 package com.grisha.security;
 
-import entities.User;
+import com.grisha.security.entities.User;
 import lombok.*;
 
 import java.util.UUID;

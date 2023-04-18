@@ -1,5 +1,4 @@
-package сonfigs;
-
+package com.grisha.security.сonfigs;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,8 +16,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected  void configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
+                .antMatchers("/registration").permitAll()
                 .antMatchers("/authenticated/**").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/**").permitAll()
                 .and()
                 .formLogin()
                 .and()

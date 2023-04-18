@@ -1,10 +1,11 @@
-package entities;
+package com.grisha.security.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Optional;
 import java.util.Set;
 
 @Entity
@@ -28,6 +29,8 @@ public class User {
     private String email;
     @Column(name = "password")
     private String password;
+    @Transient
+    private String passwordConfirm;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "roles_id")
     private Set<Role> roles;
