@@ -57,9 +57,7 @@ public class UserService implements UserDetailsService {
 //            throw new UserAlreadyExistExcpetion("User already exist");
 //        }
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        Set<Role> roles = new HashSet<>();
-        roles.add(roleRepository.findById(2L).get());
-        user.setRoles(roles);
+        user.setRoles(roleRepository.findRoleById(2L));
         userRepository.save(user);
     }
     public void update(User user) {

@@ -1,8 +1,7 @@
 package com.grisha.security.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -24,5 +23,6 @@ public class Employer {
     private User user;
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "vacancys_id")
+    @JsonIgnore
     private Set<Vacancy> vacancies;
 }
