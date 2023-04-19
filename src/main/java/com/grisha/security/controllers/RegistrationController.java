@@ -3,6 +3,7 @@ package com.grisha.security.controllers;
 import com.grisha.security.entities.Role;
 import com.grisha.security.services.UserService;
 import com.grisha.security.entities.User;
+import com.grisha.security.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 public class RegistrationController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserValidator userValidator;
 
     @GetMapping
     public String registration(Model model) {
@@ -23,6 +26,7 @@ public class RegistrationController {
 
     @PostMapping
     public String addUser(@ModelAttribute("userForm") User userForm, Role role, BindingResult bindingResult, Model model) {
+//        userValidator.validate(userForm, bindingResult);
         if (bindingResult.hasErrors()) { return "registration"; }
         if (!userForm.getPassword().equals(userForm.getPasswordConfirm())) {
             model.addAttribute("passwordError", "Password didn't match");

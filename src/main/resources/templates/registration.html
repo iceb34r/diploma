@@ -16,8 +16,12 @@
         <img th:src="@{/img/logo.png}" class="image" height="140px" >
     </div>
     <div class="upperBarButtons">
-        <a th:href="@{/test}" class="btn btn-outline-success" role="button" aria-pressed="true">Вакансии</a>
-        <a th:href="@{/test}" class="btn btn-outline-success" role="button" aria-pressed="true">Мое резюме</a>
+        <div class="upperBarButtons_vacancysButton">
+            <a th:href="@{/test}" class="btn btn-outline-success" role="button" aria-pressed="true">Вакансии</a>
+        </div>
+        <div clas="upperBarButtons_resumeButton">
+            <a th:href="@{/test}" class="btn btn-outline-success" role="button" aria-pressed="true">Мое резюме</a>
+        </div>
     </div>
     <div class="loginButton">
         <a th:href="@{/test}" class="btn btn-outline-success" role="button" aria-pressed="true">Войти</a>
