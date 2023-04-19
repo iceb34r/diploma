@@ -57,13 +57,27 @@
             <input type="password" id="passwordAdmit" name="passwordAdmit" th:field="*{passwordConfirm}" class="form-control" placeholder="Пароль ещё раз" required>
         </p>
         <p>
-            <input th:type="radio" id="3" name="3" value="3" th:field="*{roles}"  required>
+            <input th:type="radio" id="3" value="EMPLOYER" th:field="*{roleConfirm}" required>
             <label for="3" class="sr-only">Работодатель</label>
-            <input th:type="radio" id="2" name="2" value="2" th:field="*{roles}" required>
+            <input th:type="radio" id="2" value="APPLICANT" th:field="*{roleConfirm}" required>
             <label for="2" class="sr-only">Соискатель</label>
         </p>
+
         <button class="btn-lg" type="submit">Зарегистрироваться</button>
     </form>
 </div>
 </body>
 </html>
+
+
+
+
+<!--<p>-->
+<!--    <input onclick="document.getElementById('companyName').disabled = false;"  th:type="radio" id="3" name="selectRole" value="3" th:field="*{roles}"  required>-->
+<!--    <label for="3" class="sr-only">Работодатель</label>-->
+<!--    <input onclick="document.getElementById('companyName').disabled = true;" th:type="radio" id="2" name="selectRole" value="2" th:field="*{roles}" required>-->
+<!--    <label for="2" class="sr-only">Соискатель</label>-->
+<!--</p>-->
+<!--<p>-->
+<!--    <input type="text" id="companyName" name="companyName" th:field="${employerForm.companyName}" class="form-control" placeholder="Название вашей компании">-->
+<!--</p>-->

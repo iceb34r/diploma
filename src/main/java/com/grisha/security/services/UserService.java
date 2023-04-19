@@ -45,7 +45,8 @@ public class UserService implements UserDetailsService {
 
     public User findUserByEmail(String email) {
         Optional<User> userFromDb = userRepository.findByEmail(email);
-        return userFromDb.orElseThrow(()-> new NotFoundException(String.format("Can't find user with email %s: ", email)));
+        return userFromDb.orElseThrow(()-> new NotFoundException(String.format("Can't find user with email : %s ", email)));
+//        return userFromDb.orElse(null);
     }
 
     public List<User> allUsers() { return userRepository.findAll(); }

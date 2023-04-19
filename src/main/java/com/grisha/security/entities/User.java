@@ -31,16 +31,12 @@ public class User {
     private String password;
     @Transient
     private String passwordConfirm;
+    @Transient
+    private String roleConfirm;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Set<Role> roles;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "employers_id")
-    private Employer employer;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "applicants_id")
-    private Applicant applicant;
 
 }

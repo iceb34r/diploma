@@ -1,5 +1,6 @@
 package com.grisha.security.controllers;
 
+import com.grisha.security.entities.Employer;
 import com.grisha.security.entities.Role;
 import com.grisha.security.services.UserService;
 import com.grisha.security.entities.User;
@@ -25,14 +26,27 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String addUser(@ModelAttribute("userForm") User userForm, Role role, BindingResult bindingResult, Model model) {
+    public String addUser(@ModelAttribute("userForm") User userForm, Employer employerForm, Role role, BindingResult bindingResult, Model model) {
 //        userValidator.validate(userForm, bindingResult);
         if (bindingResult.hasErrors()) { return "registration"; }
         if (!userForm.getPassword().equals(userForm.getPasswordConfirm())) {
-            model.addAttribute("passwordError", "Password didn't match");
+            model.addAttribute("passwordError", "Пароль не совпадает");
             return "registration";
+        }
+        if (userForm.getPassword().length() < 5) {
+            model.addAttribute("shortPasswordError", "Пароль должен содержать не менее 5 символов");
+            return "registration";
+        }
+        if(userForm.getRoleConfirm().equals("EMPLOYER")) {
+            userService.create(userForm);
+            return "redirect:/registrationEmp";
         }
         userService.create(userForm);
         return "redirect:/test";
+    }
+
+    @PostMapping("/registrationEmp")
+    public String addEmployer(@ModelAttribute("employerForm") Employer employerForm, BindingResult bindingResult, Model model) {
+
     }
 }
