@@ -23,6 +23,5 @@ public class Employer {
     private User user;
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "vacancys_id")
-    @JsonIgnore
     private Set<Vacancy> vacancies;
 }

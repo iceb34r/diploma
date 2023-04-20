@@ -10,4 +10,6 @@ import java.util.Set;
 @Repository
 public interface RolesRepository extends JpaRepository<Role, Long> {
     public Set<Role> findRoleById(Long id);
+
+    public Set<Role> findRoleByName(String roleName);
 }

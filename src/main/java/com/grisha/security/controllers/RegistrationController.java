@@ -1,10 +1,12 @@
 package com.grisha.security.controllers;
 
+import com.grisha.security.dto.UserDto;
 import com.grisha.security.entities.Employer;
 import com.grisha.security.entities.Role;
 import com.grisha.security.services.UserService;
 import com.grisha.security.entities.User;
 import com.grisha.security.validator.UserValidator;
+import com.grisha.security.сonfigs.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,15 +20,14 @@ public class RegistrationController {
     private UserService userService;
     @Autowired
     private UserValidator userValidator;
-
     @GetMapping
     public String registration(Model model) {
-        model.addAttribute("userForm", new User());
+        model.addAttribute("userForm", new UserDto());
         return "registration";
     }
 
     @PostMapping
-    public String addUser(@ModelAttribute("userForm") User userForm, Employer employerForm, Role role, BindingResult bindingResult, Model model) {
+    public String addUser(@ModelAttribute("userForm") UserDto userForm, Role role, BindingResult bindingResult, Model model) {
 //        userValidator.validate(userForm, bindingResult);
         if (bindingResult.hasErrors()) { return "registration"; }
         if (!userForm.getPassword().equals(userForm.getPasswordConfirm())) {
@@ -37,16 +38,10 @@ public class RegistrationController {
             model.addAttribute("shortPasswordError", "Пароль должен содержать не менее 5 символов");
             return "registration";
         }
-        if(userForm.getRoleConfirm().equals("EMPLOYER")) {
-            userService.create(userForm);
-            return "redirect:/registrationEmp";
-        }
-        userService.create(userForm);
+        if (userForm.getRoleConfirm().equals("ROLE_EMPLOYER")) { userService.createEmployer(userForm); }
+        else { userService.createApplicant(userForm); }
+
         return "redirect:/test";
     }
 
-    @PostMapping("/registrationEmp")
-    public String addEmployer(@ModelAttribute("employerForm") Employer employerForm, BindingResult bindingResult, Model model) {
-
-    }
 }

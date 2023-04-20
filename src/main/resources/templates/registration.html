@@ -24,7 +24,7 @@
         </div>
     </div>
     <div class="loginButton">
-        <a th:href="@{/test}" class="btn btn-outline-success" role="button" aria-pressed="true">Войти</a>
+        <a th:href="@{/login}" class="btn btn-outline-success" role="button" aria-pressed="true">Войти</a>
     </div>
 </header>
 <div class="greenBar"></div>
@@ -57,10 +57,13 @@
             <input type="password" id="passwordAdmit" name="passwordAdmit" th:field="*{passwordConfirm}" class="form-control" placeholder="Пароль ещё раз" required>
         </p>
         <p>
-            <input th:type="radio" id="3" value="EMPLOYER" th:field="*{roleConfirm}" required>
+            <input onclick="document.getElementById('companyName').disabled = false" th:type="radio" id="3" value="ROLE_EMPLOYER" th:field="*{roleConfirm}" required>
             <label for="3" class="sr-only">Работодатель</label>
-            <input th:type="radio" id="2" value="APPLICANT" th:field="*{roleConfirm}" required>
+            <input onclick="document.getElementById('companyName').disabled = true" th:type="radio" id="2" value="ROLE_APPLICANT" th:field="*{roleConfirm}" required>
             <label for="2" class="sr-only">Соискатель</label>
+        </p>
+        <p>
+            <input type="text" id="companyName" name="companyName" th:field="*{companyName}" class="form-control" placeholder="Название вашей компании" disabled>
         </p>
 
         <button class="btn-lg" type="submit">Зарегистрироваться</button>
