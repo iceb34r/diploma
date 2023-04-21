@@ -4,62 +4,81 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link th:rel="stylesheet" th:href="@{/styles/registration.css}"/>
+    <link th:rel="stylesheet" th:href="@{/styles/main.css}"/>
     <link th:rel="stylesheet" th:href="@{/styles/media.css}"/>
     <link th:rel="stylesheet" th:href="@{/styles/bootstrap.min.css}"/>
 
     <title>Регистрация</title>
 </head>
 <body>
-<header class="headerWrapper">
-    <div class="logoContainer">
-        <img th:src="@{/img/logo.png}" class="image" height="140px" >
+<div class="mainWrapper">
+    <header class="headerWrapper">
+        <div class="logoContainer">
+            <a th:href="@{/mainpage}"> <img th:src="@{/img/logo.png}"  class="image" height="140px" > </a>
+        </div>
+        <div class="upperBarButtons">
+            <div class="upperBarButtons_vacancysButton">
+                <a th:href="@{/test}" class="btn btn-outline-success" role="button" aria-pressed="true">Вакансии</a>
+            </div>
+            <div class="upperBarButtons_resumeButton">
+                <a th:href="@{/test}" class="btn btn-outline-success" role="button" aria-pressed="true">Мое резюме</a>
+            </div>
+        </div>
+        <div class="loginButton">
+            <a th:href="@{/login}" class="btn btn-outline-success" role="button" aria-pressed="true">Войти</a>
+        </div>
+    </header>
+    <div class="greenBar shadow-sm p-3 mb-5 rounded"></div>
+
+    <div class="regContainer">
+        <form th:action="@{/registration}" class="regForm" method="post" th:object="${userForm}">
+            <h2 class="ms-5">Регистрация</h2>
+            <p>
+                <label for="manName" class="sr-only ms-5">Имя</label>
+                <input type="text" id="manName" name="manName" th:field="*{name}" class="form-control shadow-sm rounded w-50 ms-5"
+                       placeholder="Иван" required autofocus>
+            </p>
+            <p>
+                <label for="lastName" class="sr-only ms-5">Фамилия</label>
+                <input type="text" id="lastName" name="lastName" th:field="*{lastname}" class="form-control shadow-sm rounded w-50 ms-5"
+                       placeholder="Иванов" required autofocus>
+            </p>
+            <p>
+                <label for="surName" class="sr-only ms-5">Отчество</label>
+                <input type="text" id="surName" name="surName" th:field="*{surname}" class="form-control shadow-sm rounded w-50 ms-5"
+                       placeholder="Иванович" required autofocus>
+            </p>
+            <p>
+                <label for="e_mail" class="sr-only ms-5">Email</label>
+                <input type="email" id="e_mail" name="e_mail" th:field="*{email}" class="form-control shadow-sm rounded w-50 ms-5"
+                       placeholder="Электронная почта" required autofocus>
+            </p>
+            <p>
+                <label for="password" class="sr-only ms-5">Пароль</label>
+                <input type="password" id="password" name="password" th:field="*{password}" class="form-control shadow-sm rounded w-50 ms-5"
+                       placeholder="Пароль" required>
+            </p>
+            <p>
+                <label for="passwordAdmit" class="sr-only ms-5">Подтверждение пароля</label>
+                <input type="password" id="passwordAdmit" name="passwordAdmit" th:field="*{passwordConfirm}"
+                       class="form-control shadow-sm rounded w-50 ms-5" placeholder="Пароль ещё раз" required>
+            </p>
+            <p>
+                <input onclick="document.getElementById('companyName').disabled = false" th:type="radio" id="3"
+                       value="ROLE_EMPLOYER" th:field="*{roleConfirm}" class="ms-5" required>
+                <label for="3" class="sr-only">Работодатель</label>
+                <input onclick="document.getElementById('companyName').disabled = true" th:type="radio" id="2"
+                       value="ROLE_APPLICANT" th:field="*{roleConfirm}" class="ms-5" required>
+                <label for="2" class="sr-only">Соискатель</label>
+            </p>
+            <p>
+                <input type="text" id="companyName" name="companyName" th:field="*{companyName}" class="form-control shadow-sm rounded w-50 ms-5"
+                       placeholder="Название вашей компании" disabled>
+            </p>
+
+            <button class="btn-lg ms-5" type="submit">Зарегистрироваться</button>
+        </form>
     </div>
-    <div class="upperBarButtons">
-        <a th:href="@{/test}" class="btn btn-outline-success" role="button" aria-pressed="true">Вакансии</a>
-        <a th:href="@{/test}" class="btn btn-outline-success" role="button" aria-pressed="true">Мое резюме</a>
-    </div>
-    <div class="loginButton">
-        <a th:href="@{/test}" class="btn btn-outline-success" role="button" aria-pressed="true">Войти</a>
-    </div>
-</header>
-<div class="greenBar"></div>
-<!-- <h1 class="regLabe">Регистрация</h1> -->
-<div class="regContainer">
-    <form th:action="@{/registration}" class="regForm" method="post" th:object="${userForm}">
-        <h2>Регистрация</h2>
-        <p>
-            <label for="manName" class="sr-only">Имя</label>
-            <input type="text" id="manName" name="manName" th:field="*{name}" class="form-control" placeholder="Иван" required autofocus>
-        </p>
-        <p>
-            <label for="lastName" class="sr-only">Фамилия</label>
-            <input type="text" id="lastName" name="lastName" th:field="*{lastname}" class="form-control" placeholder="Иванов" required autofocus>
-        </p>
-        <p>
-            <label for="surName" class="sr-only">Отчество</label>
-            <input type="text" id="surName" name="surName" th:field="*{surname}" class="form-control" placeholder="Иванович" required autofocus>
-        </p>
-        <p>
-            <label for="e_mail" class="sr-only">Email</label>
-            <input type="email" id="e_mail" name="e_mail" th:field="*{email}" class="form-control" placeholder="Электронная почта" required autofocus>
-        </p>
-        <p>
-            <label for="password" class="sr-only">Пароль</label>
-            <input type="password" id="password" name="password" th:field="*{password}" class="form-control" placeholder="Пароль" required>
-        </p>
-        <p>
-            <label for="passwordAdmit" class="sr-only">Подтверждение пароля</label>
-            <input type="password" id="passwordAdmit" name="passwordAdmit" th:field="*{passwordConfirm}" class="form-control" placeholder="Пароль ещё раз" required>
-        </p>
-        <p>
-            <input th:type="radio" id="3" name="3" value="3" th:field="*{roles}"  required>
-            <label for="3" class="sr-only">Работодатель</label>
-            <input th:type="radio" id="2" name="2" value="2" th:field="*{roles}" required>
-            <label for="2" class="sr-only">Соискатель</label>
-        </p>
-        <button class="btn-lg" type="submit">Зарегистрироваться</button>
-    </form>
 </div>
 </body>
 </html>

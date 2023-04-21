@@ -1,10 +1,11 @@
 package com.grisha.security.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Data
@@ -27,4 +28,8 @@ public class Vacancy {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "employers_id")
     private Employer employer;
+    @Column(name = "city")
+    private String city;
+    @Column(name = "creation_date")
+    private LocalDate creationDate;
 }

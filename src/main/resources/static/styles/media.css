@@ -1,0 +1,27 @@
+@media (max-width: 825px)
+{
+    .image {
+        width: 250px;
+    }
+
+    .loginButton {
+        margin-left: 25px;
+    }
+
+
+    .upperBarButtons {
+        display: none;
+    }
+}
+
+@media (max-width: 350px)
+{
+    *{
+        font-size: small;
+    }
+
+    .image {
+        width: 170px;
+    }
+
+}
