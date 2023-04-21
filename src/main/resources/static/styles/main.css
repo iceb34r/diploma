@@ -49,7 +49,7 @@
 
  .regForm {
      margin-top: 60px;
-     width: 50%;
+     width: 35%;
  }
 
  .regLabe {
@@ -60,4 +60,59 @@
 
  .upperBarButtons_vacancysButton {
      margin-right: 250px;
+ }
+
+ .loginForm {
+     margin-top: 60px;
+     width: 30%;
+ }
+
+ body {
+     height: 100%;
+     width: 100%;
+ }
+
+ html {
+     height: 100%;
+     width: 100%;
+ }
+
+ .mainWrapper {
+     background-color: #F7FCF9;
+     display: block;
+     height: 100%;
+     width: 100%;
+ }
+
+ .ClassThatHides{
+     visibility: hidden;
+     display: none;
+ }
+
+ .parentSearchBar {
+     width: 40%;
+     display: flex;
+     height: 35px;
+ }
+
+ .searchButton {
+     background-color: white !important;
+ }
+
+ .vacancy-card-title {
+     color:  #4CA776;
+     font-size: 1.75em;
+ }
+
+ .salary-card-label {
+     font-size: large;
+ }
+
+ .cardWrapper {
+     height: 150px;
+     width: 40%
+ }
+
+ .description-textarea {
+     height: 320px;
  }

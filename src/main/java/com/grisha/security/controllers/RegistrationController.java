@@ -41,7 +41,7 @@ public class RegistrationController {
         if (userForm.getRoleConfirm().equals("ROLE_EMPLOYER")) { userService.createEmployer(userForm); }
         else { userService.createApplicant(userForm); }
 
-        return "redirect:/test";
+        return "redirect:/login";
     }
 
 }

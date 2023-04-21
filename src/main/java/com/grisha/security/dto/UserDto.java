@@ -15,10 +15,6 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
-    private RolesRepository rolesRepository;
-    private EmployerRepository employerRepository;
-    private RolesRepository roleRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     protected Long id;
     private String name;

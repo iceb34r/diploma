@@ -42,11 +42,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .antMatchers("/registration").permitAll()
                 .antMatchers("/authenticated/**").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/mainpage").permitAll()
+                .antMatchers("/vacancycreation").hasRole("EMPLOYER")
                 .antMatchers("/**").permitAll()
                 .and()
                 .formLogin()
                 .loginProcessingUrl("/login")
-                .loginPage("/login")
+                .loginPage("/login").defaultSuccessUrl("/mainpage")
                 .and()
                 .logout().logoutSuccessUrl("/");
     }

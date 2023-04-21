@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Data
@@ -24,7 +25,7 @@ public class Resume {
     @Column(name = "email")
     private String email;
     @Column(name = "birthday")
-    private LocalDate birthDate;
+    private Date birthDate;
     @Column(name = "city")
     private String city;
     @Column(name = "phone")
