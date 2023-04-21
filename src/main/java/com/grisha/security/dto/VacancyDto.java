@@ -7,6 +7,7 @@ import com.grisha.security.repositories.VacancyRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -25,6 +26,5 @@ public class VacancyDto {
     private String description;
     private String companyName;
     private String city;
-    private LocalDate dateVar;
     private LocalDate creationDate;
 }

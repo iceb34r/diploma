@@ -2,35 +2,40 @@ package com.grisha.security.services;
 
 import com.grisha.security.UserDetailsImpl;
 import com.grisha.security.dto.UserDto;
+import com.grisha.security.dto.VacancyDto;
 import com.grisha.security.entities.Applicant;
 import com.grisha.security.entities.Employer;
+import com.grisha.security.entities.Vacancy;
 import com.grisha.security.exceptions.NotFoundException;
-import com.grisha.security.repositories.ApplicantRepository;
-import com.grisha.security.repositories.EmployerRepository;
-import com.grisha.security.repositories.RolesRepository;
-import com.grisha.security.repositories.UserRepository;
+import com.grisha.security.repositories.*;
 import com.grisha.security.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
 public class UserService implements UserDetailsService {
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    EmployerRepository employerRepository;
+    private EmployerRepository employerRepository;
     @Autowired
-    ApplicantRepository applicantRepository;
+    private ApplicantRepository applicantRepository;
     @Autowired
-    RolesRepository roleRepository;
+    private RolesRepository roleRepository;
+    @Autowired
+    private VacancyRepository vacancyRepository;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -52,7 +57,22 @@ public class UserService implements UserDetailsService {
         return userFromDb.orElseThrow(()-> new NotFoundException(String.format("Can't find user with email : %s ", email)));
     }
 
+
     public List<User> allUsers() { return userRepository.findAll(); }
+
+    public void createEmployer(UserDto userDto) {
+        employerRepository.save(toEmployerFromDto(userDto));
+    }
+
+    public void createApplicant(UserDto userDto) {
+        applicantRepository.save(toApplicantFromDto(userDto));
+    }
+    public void createVacancy(VacancyDto vacancyDto, Employer employer) { vacancyRepository.save(toVacancyFromDto(vacancyDto, employer)); }
+
+    public void update(UserDto userDto) {
+        toUserFromDto(userDto);
+    }
+    public void delete(String email) { userRepository.deleteByEmail(email); }
 
     public User toUserFromDto(UserDto userDto) {
         User user = new User();
@@ -78,17 +98,19 @@ public class UserService implements UserDetailsService {
         return applicant;
     }
 
-    public void createEmployer(UserDto userDto) {
-        employerRepository.save(toEmployerFromDto(userDto));
+    public Vacancy toVacancyFromDto(VacancyDto vacancyDto, Employer employer) {
+        Vacancy vacancy = new Vacancy();
+        vacancy.setPosition(vacancyDto.getPosition());
+        vacancy.setSalary(vacancyDto.getSalary());
+        vacancy.setSchedule(vacancyDto.getSchedule());
+        vacancy.setDescription(vacancyDto.getDescription());
+        vacancy.setEmployer(employer);
+        vacancy.setCity(vacancyDto.getCity());
+        vacancy.setCreationDate(LocalDate.now());
+        return vacancy;
     }
-
-    public void createApplicant(UserDto userDto) {
-        applicantRepository.save(toApplicantFromDto(userDto));
+    public Employer getCurrentEmployer(User user) {
+        Employer employer = employerRepository.findEmployerByUserId(user.getId());
+        return employer;
     }
-
-    public void update(UserDto userDto) {
-        toUserFromDto(userDto);
-    }
-    public void delete(String email) { userRepository.deleteByEmail(email); }
-
 }

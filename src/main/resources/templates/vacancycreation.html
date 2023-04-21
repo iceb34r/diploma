@@ -33,10 +33,15 @@
     <form th:action="@{/vacancycreation}" class="container" method="post" th:object="${vacancyDto}">
         <div class="row mt-3">
           <div class="col-3">
-            <input type="text" class="form-control shadow-sm rounded" placeholder="Должность">
+            <input type="text" class="form-control shadow-sm rounded" placeholder="Должность" th:field="*{position}" th:required="true">
           </div>
           <div class="col-3">
-            <input type="t" class="form-control shadow-sm rounded" placeholder="Расписание рабочего дня"><Br>
+            <select name="selectedOptions" class="form-select shadow-sm rounded" th:field="*{schedule}" required>
+                <option value="">Расписание рабочего дня</option>
+                <option value="Полный рабочий день">Полный рабочий день</option>
+                <option value="От 4 до 6 часов">От 4 до 6 часов</option>
+                <option value="Гибкий график">Гибкий график</option>
+            </select><Br>
           </div>
           <div class="w-100"></div>
           <div class="col-3">
@@ -44,7 +49,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text">₽</span>
                 </div>
-                <input type="number" min="1" step="any" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="Оклад" th:field="*{salary}">
+                <input type="number" min="1" step="any" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="Оклад" th:field="*{salary}" required>
                 <div class="input-group-append">
                   <span class="input-group-text">.00</span>
                 </div>
@@ -55,7 +60,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text">г.</span> 
                 </div>
-                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="Город" th:field="*{city}">
+                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="Город" th:field="*{city}" required>
               </div>
          </div>
         </div>
@@ -63,12 +68,11 @@
         <div class="container mt-4">
             <form class="w-75"> 
                 <div class="form-group">
-                    <input class="form-control description-textarea" id="textareaField" placeholder="Описание вакансии" th:field="*{description}"></input>
+                    <textarea class="form-control" id="textareaField" rows="12" placeholder="Описание вакансии" th:field="*{description}" required></textarea>
                 </div>
                 <button type="submit" class="btn btn-outline-success mt-2">Создать вакансию</button>
             </form>
         </div>
-        <input type="hidden" th:value="*{dateVar.now()}" th:field="*{creationDate}">
     </form>
 
 </div>
