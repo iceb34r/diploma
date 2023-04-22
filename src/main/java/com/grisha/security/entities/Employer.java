@@ -21,7 +21,7 @@ public class Employer {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "users_id")
     private User user;
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER )
     @JoinColumn(name = "vacancys_id")
     private Set<Vacancy> vacancies;
 }

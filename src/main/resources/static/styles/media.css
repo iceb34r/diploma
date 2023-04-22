@@ -12,6 +12,24 @@
     .upperBarButtons {
         display: none;
     }
+
+    .pre-description {
+        font-size: small;
+    }
+    .strong-text {
+        font-size: medium;
+    }
+}
+
+@media (max-width: 475px) {
+    .parentSearchBar {
+        display: none;
+    }
+
+    .vac-detail-title {
+        font-size: 1.6em;
+    }
+
 }
 
 @media (max-width: 350px)

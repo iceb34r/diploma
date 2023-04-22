@@ -8,10 +8,14 @@ import com.grisha.security.entities.User;
 import com.grisha.security.validator.UserValidator;
 import com.grisha.security.сonfigs.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/registration")
@@ -21,7 +25,9 @@ public class RegistrationController {
     @Autowired
     private UserValidator userValidator;
     @GetMapping
-    public String registration(Model model) {
+    public String registration(Model model, Principal principal) {
+        boolean isLoggedIn = userService.isLoggedIn();
+        model.addAttribute("isLoggedIn", isLoggedIn);
         model.addAttribute("userForm", new UserDto());
         return "registration";
     }

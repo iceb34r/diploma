@@ -103,14 +103,18 @@ public class UserService implements UserDetailsService {
         vacancy.setPosition(vacancyDto.getPosition());
         vacancy.setSalary(vacancyDto.getSalary());
         vacancy.setSchedule(vacancyDto.getSchedule());
-        vacancy.setDescription(vacancyDto.getDescription());
         vacancy.setEmployer(employer);
         vacancy.setCity(vacancyDto.getCity());
         vacancy.setCreationDate(LocalDate.now());
+        vacancy.setResponsibilities(vacancyDto.getResponsibilities());
+        vacancy.setConditions(vacancyDto.getConditions());
+        vacancy.setRequirements(vacancyDto.getRequirements());
         return vacancy;
     }
     public Employer getCurrentEmployer(User user) {
         Employer employer = employerRepository.findEmployerByUserId(user.getId());
         return employer;
     }
+    public boolean isEmployer(UserDetails userDetails) { return userDetails.getAuthorities().equals("ROLE_EMPLOYER"); }
+    public boolean isLoggedIn() { return SecurityContextHolder.getContext().getAuthentication().isAuthenticated(); }
 }

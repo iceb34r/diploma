@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,14 +18,16 @@
         </div>
         <div class="upperBarButtons">
             <div class="upperBarButtons_vacancysButton">
-            <a th:href="@{/test}" class="btn btn-outline-success" role="button" aria-pressed="true">Вакансии</a>
+            <a th:href="@{/mainpage}" class="btn btn-outline-success" role="button" aria-pressed="true">Вакансии</a>
             </div>
             <div class="upperBarButtons_resumeButton">
-            <a th:href="@{/test}" class="btn btn-outline-success" role="button" aria-pressed="true">Мое резюме</a>
+                <a sec:authorize="hasRole('ROLE_EMPLOYER')" th:href="@{/myvacancies}" class="btn btn-outline-success" role="button" aria-pressed="true">Мои вакансии</a>
+                <a sec:authorize="hasRole('ROLE_APPLICANT')" th:href="@{/myresume}" class="btn btn-outline-success" role="button" aria-pressed="true">Мое резюме</a>
             </div>
         </div>
         <div class="loginButton">
-            <a th:href="@{/login}" class="btn btn-outline-success" role="button" aria-pressed="true">Войти</a>
+            <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="btn btn-outline-danger" role="button">Выйти</a>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="btn btn-outline-success" role="button">Войти</a>
         </div>
     </header>
     <div class="greenBar shadow-sm p-3  rounded">
@@ -39,20 +41,21 @@
     </div>
 </div>
 
-<div class="d-flex cardWrapper flex-row justify-content-between bg-white shadow-sm rounded mt-5">
+
+
+<div th:each="vacancy : ${vacancies}" class="d-flex cardWrapper flex-row justify-content-between bg-white shadow-sm rounded mt-5">
     <div class="d-flex vacancyContent flex-column justify-content-between align-items-start w-75">
         <div class="d-flex flex-column m-2">
-            <span class="vacancy-card-title">Название</span>
-            <span class="salary-card-label m-0">15000</span>
+            <a th:href="@{/vacancydetails/{id}(id=${vacancy.getId()})}"><span class="vacancy-card-title" th:text="${vacancy.position}"></span></a>
+            <span class="salary-card-label m-0 th" th:text="${vacancy.salary} + ' ₽'"></span>
         </div>
-        <span class="nameOfCompany m-2">javasoft</span>
+        <span class="nameOfCompany m-2" th:text="${vacancy.employer.companyName}"></span>
     </div>
 
         <div class="d-flex flex-column justify-content-between w-25" id="dataCityContent"> 
-            <span class="city mt-1 me-2">фыв</span>
-            <span class="date mb-1 me-2">фыв</span>
+            <span class="city mt-1 me-2" th:text="${vacancy.city}"></span>
+            <span class="date mb-1 me-2" th:text="${vacancy.creationDate}"></span>
         </div>
-
 </div>
 </div>
 </body>

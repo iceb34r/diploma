@@ -27,4 +27,7 @@ public class VacancyDto {
     private String companyName;
     private String city;
     private LocalDate creationDate;
+    private String responsibilities;
+    private String requirements;
+    private String conditions;
 }

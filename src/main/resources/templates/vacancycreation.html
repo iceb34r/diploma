@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,18 +14,20 @@
 <div class = "mainWrapper">
     <header class="headerWrapper">
         <div class="logoContainer">
-            <a th:href="@{/mainpage}"><img th:src="@{/img/logo.png}"  class="image" height="140px" > </a>
+            <a th:href="@{/mainpage}"> <img th:src="@{/img/logo.png}"  class="image" height="140px" > </a>
         </div>
         <div class="upperBarButtons">
             <div class="upperBarButtons_vacancysButton">
-            <a th:href="@{/test}" class="btn btn-outline-success" role="button" aria-pressed="true">Вакансии</a>
+            <a th:href="@{/mainpage}" class="btn btn-outline-success" role="button" aria-pressed="true">Вакансии</a>
             </div>
             <div class="upperBarButtons_resumeButton">
-            <a th:href="@{/test}" class="btn btn-outline-success" role="button" aria-pressed="true">Мое резюме</a>
+                <a sec:authorize="hasRole('ROLE_EMPLOYER')" th:href="@{/myvacancies}" class="btn btn-outline-success" role="button" aria-pressed="true">Мои вакансии</a>
+                <a sec:authorize="hasRole('ROLE_APPLICANT')" th:href="@{/myresume}" class="btn btn-outline-success" role="button" aria-pressed="true">Мое резюме</a>
             </div>
         </div>
         <div class="loginButton">
-            <a th:href="@{/logout}" class="btn btn-outline-danger" role="button" aria-pressed="true">Выйти</a>
+            <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="btn btn-outline-danger" role="button">Выйти</a>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="btn btn-outline-success" role="button">Войти</a>
         </div>
     </header>
     <div class="greenBar shadow-sm p-3  rounded"></div>
@@ -49,7 +51,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text">₽</span>
                 </div>
-                <input type="number" min="1" step="any" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="Оклад" th:field="*{salary}" required>
+                <input type="number" min="0" step="1" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="Оклад" th:field="*{salary}" required>
                 <div class="input-group-append">
                   <span class="input-group-text">.00</span>
                 </div>
@@ -68,7 +70,9 @@
         <div class="container mt-4">
             <form class="w-75"> 
                 <div class="form-group">
-                    <textarea class="form-control" id="textareaField" rows="12" placeholder="Описание вакансии" th:field="*{description}" required></textarea>
+                    <textarea class="form-control" id="textareaField" rows="5" placeholder="Опишите требования к кандидату.." th:field="*{requirements}" required></textarea><Br>
+                    <textarea class="form-control" id="textareaField2" rows="5" placeholder="Опишите обязанности работника.." th:field="*{responsibilities}" required></textarea><Br>
+                    <textarea class="form-control" id="textareaField3" rows="5" placeholder="Опишите условия труда.." th:field="*{conditions}" required></textarea>
                 </div>
                 <button type="submit" class="btn btn-outline-success mt-2">Создать вакансию</button>
             </form>

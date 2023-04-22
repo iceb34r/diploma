@@ -27,7 +27,4 @@ public class UserDto {
     private Set<Role> roles;
     private String companyName;
 
-    public boolean isEmployer() {
-        return roleConfirm.equals("ROLE_EMPLOYER");
-    }
 }
