@@ -10,11 +10,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @EnableWebSecurity
 @Configuration
@@ -25,6 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     private UserService userService;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Bean
     public DaoAuthenticationProvider authProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -43,14 +48,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .antMatchers("/authenticated/**").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/mainpage").permitAll()
-                .antMatchers("/vacancycreation").hasRole("EMPLOYER")
+                .antMatchers("/vacancycreation", "/vaclist").hasRole("EMPLOYER")
+                .antMatchers("/myresume").hasRole("APPLICANT")
                 .antMatchers("/**").permitAll()
                 .and()
-                .formLogin()
-                .loginProcessingUrl("/login")
-                .loginPage("/login").defaultSuccessUrl("/mainpage")
+                    .formLogin()
+                    .loginProcessingUrl("/login")
+                    .loginPage("/login").defaultSuccessUrl("/mainpage")
                 .and()
-                .logout().logoutSuccessUrl("/");
+                    .csrf().disable()
+                    .logout()
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/login");
     }
 }
 

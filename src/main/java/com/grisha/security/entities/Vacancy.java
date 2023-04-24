@@ -23,8 +23,6 @@ public class Vacancy {
     private Integer salary;
     @Column(name = "schedule")
     private String schedule;
-    @Column(name = "description")
-    private String description;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "employers_id")
     private Employer employer;
@@ -32,4 +30,10 @@ public class Vacancy {
     private String city;
     @Column(name = "creation_date")
     private LocalDate creationDate;
+    @Column(name = "responsibilities")
+    private String responsibilities;
+    @Column(name = "requirements")
+    private String requirements;
+    @Column(name = "conditions")
+    private String conditions;
 }

@@ -114,5 +114,31 @@
  }
 
  .description-textarea {
-     height: 320px;
+     height: 170px;
+ }
+
+ .vac-detail-main-wrapper {
+     height: 200px;
+ }
+
+ .vac-detail-title {
+     color:  #4CA776;
+     font-size: 2em;
+ }
+
+ .vac-detail-salary {
+     font-size: large;
+ }
+
+ .pre-description {
+     white-space: pre-line;
+     font-size: large;
+ }
+
+ .color-div {
+     background-color: #F7FCF9;
+ }
+
+ .header-description {
+     font-size: 1.75em;
  }
