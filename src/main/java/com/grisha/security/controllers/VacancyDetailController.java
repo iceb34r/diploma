@@ -32,8 +32,6 @@ public class VacancyDetailController {
     public String vacancyDetails(@PathVariable("id") Long id, Model model, Principal principal) {
         Vacancy vacancy = vacancyRepository.findVacancyById(id);
         Employer employer = vacancy.getEmployer();
-        boolean isLoggedIn = userService.isLoggedIn();
-        model.addAttribute("isLoggedIn", isLoggedIn);
         model.addAttribute("vacancy", vacancy);
         model.addAttribute("employer", employer);
         return "vacancydetails";

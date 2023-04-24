@@ -1,14 +1,13 @@
 package com.grisha.security.services;
 
 import com.grisha.security.UserDetailsImpl;
+import com.grisha.security.dto.ResumeDto;
 import com.grisha.security.dto.UserDto;
 import com.grisha.security.dto.VacancyDto;
-import com.grisha.security.entities.Applicant;
-import com.grisha.security.entities.Employer;
-import com.grisha.security.entities.Vacancy;
+import com.grisha.security.entities.*;
 import com.grisha.security.exceptions.NotFoundException;
 import com.grisha.security.repositories.*;
-import com.grisha.security.entities.User;
+import com.grisha.security.utils.DtoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -37,7 +36,11 @@ public class UserService implements UserDetailsService {
     @Autowired
     private VacancyRepository vacancyRepository;
     @Autowired
+    private ResumeRepository resumeRepository;
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private DtoUtils dtoUtils;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -47,74 +50,62 @@ public class UserService implements UserDetailsService {
         }
         return new UserDetailsImpl(user);
     }
+
     public User findUserById(Long id) {
         Optional<User> userFromDb = userRepository.findById(id);
-        return userFromDb.orElseThrow(()-> new NotFoundException(String.format("Can't find user with id [%d]",id)));
+        return userFromDb.orElseThrow(() -> new NotFoundException(String.format("Can't find user with id [%d]", id)));
     }
 
     public User findUserByEmail(String email) {
         Optional<User> userFromDb = userRepository.findByEmail(email);
-        return userFromDb.orElseThrow(()-> new NotFoundException(String.format("Can't find user with email : %s ", email)));
+        return userFromDb.orElseThrow(() -> new NotFoundException(String.format("Can't find user with email : %s ", email)));
     }
 
 
-    public List<User> allUsers() { return userRepository.findAll(); }
+    public List<User> allUsers() {
+        return userRepository.findAll();
+    }
 
     public void createEmployer(UserDto userDto) {
-        employerRepository.save(toEmployerFromDto(userDto));
+        employerRepository.save(dtoUtils.toEmployerFromDto(userDto));
     }
 
     public void createApplicant(UserDto userDto) {
-        applicantRepository.save(toApplicantFromDto(userDto));
+        applicantRepository.save(dtoUtils.toApplicantFromDto(userDto));
     }
-    public void createVacancy(VacancyDto vacancyDto, Employer employer) { vacancyRepository.save(toVacancyFromDto(vacancyDto, employer)); }
+
+    public void createVacancy(VacancyDto vacancyDto, Employer employer) {
+        vacancyRepository.save(dtoUtils.toVacancyFromDto(vacancyDto, employer));
+    }
+
+    public void createResume(ResumeDto resumeDto, Applicant applicant) {
+        Iterable<Resume> allResume = resumeRepository.findAll();
+        for(Resume currentResume : allResume) {
+            if (currentResume.getApplicant() == applicant) {
+                currentResume.setBirthDate(resumeDto.getBirthDate());
+                currentResume.setCity(resumeDto.getCity());
+                currentResume.setPhone(resumeDto.getPhone());
+                currentResume.setPosition(resumeDto.getPosition());
+                currentResume.setSalary(resumeDto.getSalary());
+                currentResume.setWorkExperience(resumeDto.getWorkExperience());
+                currentResume.setSkills(resumeDto.getSkills());
+                currentResume.setEducation(resumeDto.getEducation());
+                resumeRepository.save(currentResume);
+            }
+            else { resumeRepository.save(dtoUtils.toResumeFromDto(resumeDto, applicant)); }
+        }
+    }
 
     public void update(UserDto userDto) {
-        toUserFromDto(userDto);
-    }
-    public void delete(String email) { userRepository.deleteByEmail(email); }
-
-    public User toUserFromDto(UserDto userDto) {
-        User user = new User();
-        user.setName(userDto.getName());
-        user.setLastname(userDto.getLastname());
-        user.setSurname(userDto.getSurname());
-        user.setEmail(userDto.getEmail());
-        user.setRoles(roleRepository.findRoleByName(userDto.getRoleConfirm()));
-        user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
-        return userRepository.save(user);
+        dtoUtils.toUserFromDto(userDto);
     }
 
-    public Employer toEmployerFromDto(UserDto userDto) {
-        Employer employer = new Employer();
-        employer.setCompanyName(userDto.getCompanyName());
-        employer.setUser(toUserFromDto(userDto));
-        return employer;
+    public void delete(String email) {
+        userRepository.deleteByEmail(email);
     }
 
-    public Applicant toApplicantFromDto(UserDto userDto) {
-        Applicant applicant = new Applicant();
-        applicant.setUser(toUserFromDto(userDto));
-        return applicant;
-    }
-
-    public Vacancy toVacancyFromDto(VacancyDto vacancyDto, Employer employer) {
-        Vacancy vacancy = new Vacancy();
-        vacancy.setPosition(vacancyDto.getPosition());
-        vacancy.setSalary(vacancyDto.getSalary());
-        vacancy.setSchedule(vacancyDto.getSchedule());
-        vacancy.setEmployer(employer);
-        vacancy.setCity(vacancyDto.getCity());
-        vacancy.setCreationDate(LocalDate.now());
-        vacancy.setResponsibilities(vacancyDto.getResponsibilities());
-        vacancy.setConditions(vacancyDto.getConditions());
-        vacancy.setRequirements(vacancyDto.getRequirements());
-        return vacancy;
-    }
     public Employer getCurrentEmployer(User user) {
         Employer employer = employerRepository.findEmployerByUserId(user.getId());
         return employer;
     }
-    public boolean isEmployer(UserDetails userDetails) { return userDetails.getAuthorities().equals("ROLE_EMPLOYER"); }
-    public boolean isLoggedIn() { return SecurityContextHolder.getContext().getAuthentication().isAuthenticated(); }
 }

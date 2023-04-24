@@ -26,8 +26,6 @@ public class VacancyCreationController {
     @GetMapping
     public String getForm(Model model, Principal principal) {
         User user = userService.findUserByEmail(principal.getName());
-        boolean isLoggedIn = userService.isLoggedIn();
-        model.addAttribute("isLoggedIn", isLoggedIn);
         model.addAttribute("vacancyDto", new VacancyDto());
         return "/vacancycreation";
     }

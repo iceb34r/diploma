@@ -1,6 +1,7 @@
 package com.grisha.security.entities;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -16,15 +17,8 @@ public class Resume {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     protected Long id;
-    @Column(name = "name")
-    private String name;
-    @Column(name = "lastname")
-    private String lastname;
-    @Column(name = "surname")
-    private String surname;
-    @Column(name = "email")
-    private String email;
     @Column(name = "birthday")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;
     @Column(name = "city")
     private String city;

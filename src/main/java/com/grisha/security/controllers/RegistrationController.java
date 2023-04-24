@@ -26,8 +26,6 @@ public class RegistrationController {
     private UserValidator userValidator;
     @GetMapping
     public String registration(Model model, Principal principal) {
-        boolean isLoggedIn = userService.isLoggedIn();
-        model.addAttribute("isLoggedIn", isLoggedIn);
         model.addAttribute("userForm", new UserDto());
         return "registration";
     }
