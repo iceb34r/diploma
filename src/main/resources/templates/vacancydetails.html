@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:rel="stylesheet" th:href="@{/styles/main.css}"/>
+    <link th:rel="stylesheet" th:href="@{/styles/media.css}"/>
+    <link th:rel="stylesheet" th:href="@{/styles/bootstrap.min.css}"/>
+    <link rel="icon" type="image/x-icon" th:href="@{img/favicon.ico}">
+    <title th:text="'Вакансия ' + ${vacancy.position}"></title>
+</head>
+
+<body>
+<div class = "mainWrapper">
+    <header class="headerWrapper">
+        <div class="logoContainer">
+            <a th:href="@{/mainpage}"><img th:src="@{/img/logo.png}"  class="image" height="140px" > </a>
+        </div>
+        <div class="upperBarButtons">
+            <div class="upperBarButtons_vacancysButton">
+            <a th:href="@{/mainpage}" class="btn btn-outline-success" role="button" aria-pressed="true">Вакансии</a>
+            </div>
+            <div class="upperBarButtons_resumeButton">
+                <a sec:authorize="hasRole('ROLE_EMPLOYER')" th:href="@{/vaclist/page/1}" class="btn btn-outline-success" role="button" aria-pressed="true">Мои вакансии</a>
+                <a sec:authorize="hasRole('ROLE_APPLICANT')" th:href="@{/myresume}" class="btn btn-outline-success" role="button" aria-pressed="true">Мое резюме</a>
+            </div>
+        </div>
+        <div class="loginButton">
+            <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="btn btn-outline-danger" role="button">Выйти</a>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="btn btn-outline-success" role="button">Войти</a>
+        </div>
+    </header>
+    <div class="greenBar shadow-sm p-3  rounded">
+        <div class="input-group-append">
+            <a sec:authorize="hasRole('ROLE_EMPLOYER')" th:href="@{/vacancycreation}"><button class="vac-creation btn btn-outline-success bg-white text-black me-3" type="button">Создать вакансию</button></a>
+        </div>
+    </div>
+
+
+<div class="d-flex vac-detail-main-wrapper flex-row justify-content-between bg-white shadow-sm rounded mt-5 w-50">
+    <div class="d-flex vacancyContent flex-column justify-content-around align-items-start w-100">
+        <div class="d-flex flex-column m-2">
+            <span class="vac-detail-title" th:text="${vacancy.position}"></span>
+            <span class="vac-detail-salary m-0" th:text="${vacancy.salary} + ' ₽'"></span>
+        </div>
+        <span class="vac-detail-schedule m-2" th:text="${vacancy.schedule}"></span>
+        <span class="vac-detail-company m-2" th:text="${employer.companyName}"></span>
+    </div>
+</div>
+<div class="color-div"><Br>
+    <div class="d-flex w-50 card">
+        <span class="header-description ms-1"><strong class="strong-text">Требования:</strong></span>
+    <pre class="w-100 pre-description card-text rounded ms-1" th:text="${vacancy.requirements}"></pre>
+        <span class="header-description ms-1"><strong class="strong-text">Обязанности:</strong></span>
+    <pre class="w-100 pre-description card-text rounded ms-1" th:text="${vacancy.responsibilities}"></pre>
+        <span class="header-description ms-1"><strong class="strong-text">Условия:</strong></span>
+    <pre class="w-100 pre-description card-text rounded ms-1" th:text="${vacancy.conditions}"></pre>
+</div>
+</div>
+
+</div>
+</body>
+</html>
