@@ -37,9 +37,6 @@
         </div>
     <div class="parentSearchBar ms-0">
         <div class="searchInput input-group mb-2">
-<!--            <div class="input-group-append">-->
-<!--                <a sec:authorize="hasRole('ROLE_EMPLOYER')" th:href="@{/vacancycreation}"><button class="vac-creation btn btn-outline-success bg-white text-black me-3" type="button">Создать вакансию</button></a>-->
-<!--            </div>-->
             <form class="d-flex w-100" th:action="@{/search/1}" method="get">
             <input type="text" class="form-control shadow-sm rounded" th:value="${search}" name="search" id="search" placeholder="Поиск" aria-label="Поиск" aria-describedby="basic-addon2">
             <div class="input-group-append">

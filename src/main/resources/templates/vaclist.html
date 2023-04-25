@@ -32,19 +32,20 @@
         </div>
     </header>
     <div class="greenBar shadow-sm p-3  rounded">
-    <div class="parentSearchBar">
+        <div class="input-group-append me-0">
+            <a sec:authorize="hasRole('ROLE_EMPLOYER')" th:href="@{/vacancycreation}"><button class="vac-creation btn btn-outline-success bg-white text-black me-3" type="button">Создать вакансию</button></a>
+        </div>
+    <div class="parentSearchBar ms-0">
         <div class="searchInput input-group mb-2">
-            <div class="input-group-append">
-                <a sec:authorize="hasRole('ROLE_EMPLOYER')" th:href="@{/vacancycreation}"><button class="vac-creation btn btn-outline-success bg-white text-black me-3" type="button">Создать вакансию</button></a>
-            </div>
-            <input type="text" class="form-control shadow-sm rounded" placeholder="Поиск" aria-label="Поиск" aria-describedby="basic-addon2">
-            <div class="input-group-append">
-            <button class="searchButton btn btn-outline-secondary ms-3 " type="button">Найти</button>
-            </div>
+            <form class="d-flex w-100" th:action="@{/vaclistsearch/1}" method="get">
+                <input type="text" class="form-control shadow-sm rounded" th:value="${search}" name="search" id="search" placeholder="Поиск" aria-label="Поиск" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="searchButton btn btn-outline-success text-black ms-3 " type="submit">Найти</button>
+                </div>
+            </form>
         </div>     
     </div>
 </div>
-
 
 
 <div th:each="vacancy : ${vacancies}" class="d-flex cardWrapper flex-row justify-content-between bg-white shadow-sm rounded mt-5">

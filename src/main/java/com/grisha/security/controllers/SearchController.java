@@ -1,6 +1,9 @@
 package com.grisha.security.controllers;
 
+import com.grisha.security.entities.Employer;
+import com.grisha.security.entities.User;
 import com.grisha.security.entities.Vacancy;
+import com.grisha.security.repositories.EmployerRepository;
 import com.grisha.security.repositories.VacancyRepository;
 import com.grisha.security.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,8 @@ public class SearchController {
     private VacancyRepository vacancyRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private EmployerRepository employerRepository;
     @GetMapping("/search/{pageNum}")
     public String search(Model model, Principal principal, @RequestParam String search, @PathVariable("pageNum") int currentPage) {
             Page<Vacancy> page = userService.findSearchPage(currentPage, search);
@@ -33,5 +38,21 @@ public class SearchController {
             model.addAttribute("totalItems", totalItems);
             model.addAttribute("vacancies", vacancies);
             return "search";
+    }
+
+    @GetMapping("/vaclistsearch/{pageNum}")
+    public String vacListSearch(Model model, Principal principal, @RequestParam String search, @PathVariable("pageNum") int currentPage) {
+        User user = userService.findUserByEmail(principal.getName());
+        Employer employer = employerRepository.findEmployerByUserId(user.getId());
+        Page<Vacancy> page = userService.findSearchVacListPage(currentPage, search, employer);
+        int totalPages = page.getTotalPages();
+        long totalItems = page.getTotalElements();
+        List<Vacancy> vacancies = page.getContent();
+        model.addAttribute("search", search);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalItems", totalItems);
+        model.addAttribute("vacancies", vacancies);
+        return "search";
     }
 }

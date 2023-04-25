@@ -62,14 +62,3 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                     .logoutSuccessUrl("/login");
     }
 }
-
-
-
-
-
-
-//     @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeHttpRequests();
-//    }

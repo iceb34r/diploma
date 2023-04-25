@@ -127,4 +127,9 @@ public class UserService implements UserDetailsService {
         return vacancyRepository.findVacanciesByPositionContains(search, pageable);
     }
 
+    public Page<Vacancy> findSearchVacListPage(int pageNum, String search, Employer employer) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 4);
+        return vacancyRepository.findVacanciesByPositionContainsAndEmployer(search, pageable, employer);
+    }
+
 }

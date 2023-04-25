@@ -1,5 +1,6 @@
 package com.grisha.security.repositories;
 
+import com.grisha.security.entities.Employer;
 import com.grisha.security.entities.Vacancy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,4 +18,5 @@ public interface VacancyRepository extends JpaRepository<Vacancy, Long> {
     public Iterable<Vacancy> findAllByEmployerId(Long id);
     public Page<Vacancy> findAllByEmployerId(Long id, Pageable pageable);
     public Page<Vacancy> findVacanciesByPositionContains(String position, Pageable pageable);
+    public Page<Vacancy> findVacanciesByPositionContainsAndEmployer(String position, Pageable pageable, Employer employer);
 }
