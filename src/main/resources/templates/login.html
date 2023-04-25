@@ -21,7 +21,7 @@
             <a th:href="@{/mainpage}" class="btn btn-outline-success" role="button" aria-pressed="true">Вакансии</a>
             </div>
             <div class="upperBarButtons_resumeButton">
-                <a sec:authorize="hasRole('ROLE_EMPLOYER')" th:href="@{/vaclist}" class="btn btn-outline-success" role="button" aria-pressed="true">Мои вакансии</a>
+                <a sec:authorize="hasRole('ROLE_EMPLOYER')" th:href="@{/vaclist/page/1}" class="btn btn-outline-success" role="button" aria-pressed="true">Мои вакансии</a>
                 <a sec:authorize="hasRole('ROLE_APPLICANT')" th:href="@{/myresume}" class="btn btn-outline-success" role="button" aria-pressed="true">Мое резюме</a>
             </div>
         </div>
@@ -34,12 +34,10 @@
 
     <div class="regContainer"> 
         <form th:action="@{/login}" class="loginForm" method="post">
-<!--              onsubmit="document.getElementById('alert').classList.remove('ClassThatHides');"-->
             <h2>Авторизация</h2>
-<!--            <div class="alert alert-danger ClassThatHides" id="alert" role="alert">Неверные учетные данные пользователя</div>-->
             <p>
                 <label for="username" class="sr-only">Email</label>
-                <input type="email" id="username" name="username" class="form-control shadow-sm rounded is-invalid" placeholder="Введите электронную почту" required autofocus>
+                <input type="email" id="username" name="username" class="form-control shadow-sm rounded" placeholder="Введите электронную почту" required autofocus>
             </p>
             <p>
                 <label for="password" class="sr-only">Пароль</label>
