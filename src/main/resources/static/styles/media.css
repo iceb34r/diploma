@@ -1,3 +1,15 @@
+@media  (max-width: 1250px) {
+    .vacancy-card-title {
+        font-size: medium;
+    }
+    .city {
+        font-size: smaller;
+    }
+    .salary-card-label {
+        font-size: small;
+    }
+}
+
 @media (max-width: 825px)
 {
     .image {

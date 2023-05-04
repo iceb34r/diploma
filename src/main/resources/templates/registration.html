@@ -22,7 +22,7 @@
                 <a th:href="@{/mainpage}" class="btn btn-outline-success" role="button" aria-pressed="true">Вакансии</a>
             </div>
             <div class="upperBarButtons_resumeButton">
-                <a sec:authorize="hasRole('ROLE_EMPLOYER')" th:href="@{/vaclist}" class="btn btn-outline-success" role="button" aria-pressed="true">Мои вакансии</a>
+                <a sec:authorize="hasRole('ROLE_EMPLOYER')" th:href="@{/vaclist/page/1}" class="btn btn-outline-success" role="button" aria-pressed="true">Мои вакансии</a>
                 <a sec:authorize="hasRole('ROLE_APPLICANT')" th:href="@{/myresume}" class="btn btn-outline-success" role="button" aria-pressed="true">Мое резюме</a>
             </div>
         </div>

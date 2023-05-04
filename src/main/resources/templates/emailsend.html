@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,8 +8,9 @@
     <link th:rel="stylesheet" th:href="@{/styles/media.css}"/>
     <link th:rel="stylesheet" th:href="@{/styles/bootstrap.min.css}"/>
     <link rel="icon" type="image/x-icon" th:href="@{img/favicon.ico}">
-    <title>Авторизация</title>
+    <title th:text="Отклик"></title>
 </head>
+
 <body>
 <div class = "mainWrapper">
     <header class="headerWrapper">
@@ -18,7 +19,7 @@
         </div>
         <div class="upperBarButtons">
             <div class="upperBarButtons_vacancysButton">
-            <a th:href="@{/mainpage}" class="btn btn-outline-success" role="button" aria-pressed="true">Вакансии</a>
+                <a th:href="@{/mainpage}" class="btn btn-outline-success" role="button" aria-pressed="true">Вакансии</a>
             </div>
             <div class="upperBarButtons_resumeButton">
                 <a sec:authorize="hasRole('ROLE_EMPLOYER')" th:href="@{/vaclist/page/1}" class="btn btn-outline-success" role="button" aria-pressed="true">Мои вакансии</a>
@@ -30,24 +31,21 @@
             <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="btn btn-outline-success" role="button">Войти</a>
         </div>
     </header>
-    <div class="greenBar shadow-sm p-3 mb-5 rounded"></div>
-
-    <div class="regContainer"> 
-        <form th:action="@{/login}" class="loginForm" method="post">
-            <h2>Авторизация</h2>
-            <p>
-                <label for="username" class="sr-only">Email</label>
-                <input type="email" id="username" name="username" class="form-control shadow-sm rounded" placeholder="Введите электронную почту" required autofocus>
-            </p>
-            <p>
-                <label for="password" class="sr-only">Пароль</label>
-                <input type="password" id="password" name="password" class="form-control shadow-sm rounded" placeholder="Введите пароль" required>
-            </p>
-
-            <button class="btn-lg" type="submit">Войти</button>
-            <a th:href="@{/registration}" class="btn-lg" role="button" aria-pressed="true">Зарегистрироваться</a>
-        </form>
+    <div class="greenBar shadow-sm p-3  rounded">
+        <div class="input-group-append">
+            <a sec:authorize="hasRole('ROLE_EMPLOYER')" th:href="@{/vacancycreation}"><button class="vac-creation btn btn-outline-success bg-white text-black me-3" type="button">Создать вакансию</button></a>
+        </div>
     </div>
+
+<div class="d-flex">
+    <div class="d-flex mt-5 w-50">
+            <p class="success-response">Отклик успешно отправлен</p>
+    </div>
+    <div class="d-flex">
+        <a th:href="@{/mainpage}"><button class="btn-lg btn-outline-success">Вернуться на главную</button></a>
+    </div>
+</div>
+
 </div>
 </body>
 </html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:rel="stylesheet" th:href="@{/styles/main.css}"/>
+    <link th:rel="stylesheet" th:href="@{/styles/media.css}"/>
+    <link th:rel="stylesheet" th:href="@{/styles/bootstrap.min.css}"/>
+    <link rel="icon" type="image/x-icon" th:href="@{img/favicon.ico}">
+    <title>Мое резюме</title>
+</head>
+
+<body>
+<div class = "mainWrapper">
+    <header class="headerWrapper">
+        <div class="logoContainer">
+            <a th:href="@{/mainpage}"> <img th:src="@{/img/logo.png}"  class="image" height="140px" > </a>
+        </div>
+        <div class="upperBarButtons">
+            <div class="upperBarButtons_vacancysButton">
+            <a th:href="@{/mainpage}" class="btn btn-outline-success" role="button" aria-pressed="true">Вакансии</a>
+            </div>
+            <div class="upperBarButtons_resumeButton">
+                <a sec:authorize="hasRole('ROLE_EMPLOYER')" th:href="@{/vaclist/page/1}" class="btn btn-outline-success" role="button" aria-pressed="true">Мои вакансии</a>
+                <a sec:authorize="hasRole('ROLE_APPLICANT')" th:href="@{/myresume}" class="btn btn-outline-success" role="button" aria-pressed="true">Мое резюме</a>
+            </div>
+        </div>
+        <div class="loginButton">
+            <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="btn btn-outline-danger" role="button">Выйти</a>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="btn btn-outline-success" role="button">Войти</a>
+        </div>
+    </header>
+    <div class="greenBar shadow-sm p-3  rounded"></div>
+
+    <form th:action="@{/myresume}" th:method="put" class="container mt-5" th:object="${resumeDto}">
+        <div class="row mt-3">
+          <div class="col-3 me-0">
+            <input type="text" class="form-control shadow-sm rounded" th:placeholder="${currentUser.name}" readonly>
+            <input type="text" class="form-control shadow-sm rounded mt-4" th:placeholder="${currentUser.surname}" readonly>
+          </div>
+          <div class="col-3 ms-0">
+            <input type="text" class="form-control shadow-sm rounded" th:placeholder="${currentUser.lastname}" readonly>
+            <input type="text" class="form-control shadow-sm rounded mt-4" th:placeholder="${currentUser.email}" readonly>
+          </div>
+        </div>
+        <div class="d-flex w-50" th:if="${resumeInfo != null}">
+                <input type="date" id="myDateInput" class="form-control shadow-sm rounded mt-4" placeholder="Дата рождения" th:field="${resumeDto.birthDate}" required>
+                <input type="text" class="form-control shadow-sm rounded mt-4 w-25" th:value="${resumeInfo.birthDate}" readonly>
+        </div>
+        <div class="d-flex w-50" th:unless="${resumeInfo != null}">
+            <input type="date" id="myDateInput2" class="form-control shadow-sm rounded mt-4" placeholder="Дата рождения" th:field="${resumeDto.birthDate}" required>
+        </div>
+
+        <div class="d-flex w-50" th:if="${resumeInfo != null}">
+                <input type="text" class="form-control shadow-sm rounded mt-4" placeholder="Город" th:field="${resumeDto.city}" required>
+            <input type="text" class="form-control shadow-sm rounded mt-4 w-25" th:value="${resumeInfo.city}" readonly>
+        </div>
+        <div class="d-flex w-50" th:unless="${resumeInfo != null}">
+            <input type="text" class="form-control shadow-sm rounded mt-4" placeholder="Город" th:field="${resumeDto.city}" required>
+        </div>
+
+        <div class="d-flex w-50" th:if="${resumeInfo != null}">
+                <input type="tel" class="form-control shadow-sm rounded mt-4" pattern="^8[ ]?\(?9\d{2}\)?[ ]?\d{3}[- ]?\d{2}[- ]?\d{2}$" placeholder="Номер телефона (формат 8(9XX)-XXX-XX-XX)" th:field="${resumeDto.phone}" required>
+                <input type="tel" class="form-control shadow-sm rounded mt-4 w-25" th:value="${resumeInfo.phone}" readonly>
+        </div>
+        <div class="d-flex w-50" th:unless="${resumeInfo != null}">
+            <input type="tel" class="form-control shadow-sm rounded mt-4" pattern="^8[ ]?\(?9\d{2}\)?[ ]?\d{3}[- ]?\d{2}[- ]?\d{2}$" placeholder="Номер телефона (формат 8(9XX)-XXX-XX-XX)" th:field="${resumeDto.phone}" required>
+        </div>
+
+        <div class="d-flex w-50" th:if="${resumeInfo != null}">
+                <input type="text" class="form-control shadow-sm rounded mt-4" placeholder="Желаемая должность" th:field="${resumeDto.position}" required>
+                <input type="text" class="form-control shadow-sm rounded mt-4 w-25" th:value="${resumeInfo.position}" readonly>
+        </div>
+
+        <div class="d-flex w-50" th:unless="${resumeInfo != null}">
+            <input type="text" class="form-control shadow-sm rounded mt-4" placeholder="Желаемая должность" th:field="${resumeDto.position}" required>
+        </div>
+
+        <div class="d-flex w-50" th:if="${resumeInfo != null}">
+                <div class="input-group-prepend mt-4">
+                    <span class="input-group-text">₽</span>
+                </div>
+                <input type="number" min="0" step="1" class="form-control shadow-sm rounded mt-4" placeholder="Предпочитаемая зарплата" th:field="${resumeDto.salary}" required>
+            <input type="number" min="0" step="1" class="form-control shadow-sm rounded mt-4 w-25" th:value="${resumeInfo.salary}" readonly>
+        </div>
+
+        <div class="d-flex w-50" th:unless="${resumeInfo != null}">
+            <div class="input-group-prepend mt-4">
+                <span class="input-group-text">₽</span>
+            </div>
+            <input type="number" min="0" step="1" class="form-control shadow-sm rounded mt-4" placeholder="Предпочитаемая зарплата" th:field="${resumeDto.salary}" required>
+        </div>
+
+        <div class="d-flex w-50" th:if="${resumeInfo != null}">
+                <input type="text" class="form-control shadow-sm rounded mt-4" placeholder="Опыт работы" th:field="${resumeDto.workExperience}" required>
+                <input type="text" class="form-control shadow-sm rounded mt-4 w-25" th:value="${resumeInfo.workExperience}" readonly>
+        </div>
+        <div class="d-flex w-50" th:unless="${resumeInfo != null}">
+            <input type="text" class="form-control shadow-sm rounded mt-4" placeholder="Опыт работы" th:field="${resumeDto.workExperience}" required>
+        </div>
+
+
+        <div class="d-flex w-50" th:if="${resumeInfo != null}">
+                <input type="text" class="form-control shadow-sm rounded mt-4" placeholder="Ключевые навыки" th:field="${resumeDto.skills}" required>
+                <input type="text" class="form-control shadow-sm rounded mt-4 w-25" th:value="${resumeInfo.skills}" readonly>
+        </div>
+        <div class="d-flex w-50" th:unless="${resumeInfo != null}">
+            <input type="text" class="form-control shadow-sm rounded mt-4" placeholder="Ключевые навыки" th:field="${resumeDto.skills}" required>
+        </div>
+
+
+        <div class="d-flex w-50">
+            <select type="text" class="form-select shadow-sm rounded mt-4" th:field="${resumeDto.education}" required>
+                <th:block th:if="${resumeInfo != null}">
+                <option th:value="${resumeInfo.education}" th:text="${resumeInfo.education}"></option>
+                </th:block>
+                <th:block th:unless="${resumeInfo != null}">
+                    <option value="">Уровень образования</option>
+                </th:block>
+                <option value="Среднее общее">Среднее общее</option>
+                <option value="Среднее профессиональное">Среднее профессиональное</option>
+                <option value="Высшее - бакалавриат">Высшее - бакалавриат</option>
+                <option value="Высшее - магистратура">Высшее - магистратура</option>
+                <option value="Высшее - специалитет">Высшее - специалитет</option>
+            </select>
+        </div>
+        <div class="d-flex justify-content-center mt-3">
+        <button type="submit" class="btn btn-outline-success mt-2 w-50">Сохранить резюме</button>
+        </div>
+    </form>
+
+
+    <script>
+        var myDateInput = document.getElementById("myDateInput")
+        var myDateInput2 = document.getElementById("myDateInput2")
+        myDateInput.addEventListener("focus", function() {
+            this.type = "date";
+        });
+        myDateInput.addEventListener("blur", function() {
+            if (this.value === "") {
+                this.type = "text";
+            }
+        });
+        myDateInput2.addEventListener("focus", function() {
+            this.type = "date";
+        });
+        myDateInput2.addEventListener("blur", function() {
+            if (this.value === "") {
+                this.type = "text";
+            }
+        });
+        </script>
+
+</div>
+</body>
+</html>

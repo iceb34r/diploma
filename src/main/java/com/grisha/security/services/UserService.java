@@ -10,6 +10,9 @@ import com.grisha.security.repositories.*;
 import com.grisha.security.utils.DtoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -108,4 +111,25 @@ public class UserService implements UserDetailsService {
         Employer employer = employerRepository.findEmployerByUserId(user.getId());
         return employer;
     }
+
+    public Page<Vacancy> findPage(int pageNum) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 4);
+        return vacancyRepository.findAll(pageable);
+    }
+
+    public Page<Vacancy> findPageEmpVacs(int pageNum, Employer employer) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 4);
+        return vacancyRepository.findAllByEmployerId(employer.getId(), pageable);
+    }
+
+    public Page<Vacancy> findSearchPage(int pageNum, String search) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 4);
+        return vacancyRepository.findVacanciesByPositionContains(search, pageable);
+    }
+
+    public Page<Vacancy> findSearchVacListPage(int pageNum, String search, Employer employer) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 4);
+        return vacancyRepository.findVacanciesByPositionContainsAndEmployer(search, pageable, employer);
+    }
+
 }
