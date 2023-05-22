@@ -1,5 +1,6 @@
 package com.grisha.security.controllers;
 
+import com.grisha.security.dto.UserDto;
 import com.grisha.security.dto.VacancyDto;
 import com.grisha.security.entities.Employer;
 import com.grisha.security.entities.User;
@@ -19,7 +20,7 @@ import javax.mail.MessagingException;
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/vacancydetails/{id}")
+@RequestMapping(("/vacancydetails/{id}"))
 public class VacancyDetailController {
     @Autowired
     private UserService userService;
@@ -33,9 +34,10 @@ public class VacancyDetailController {
         Employer employer = vacancy.getEmployer();
         model.addAttribute("vacancy", vacancy);
         model.addAttribute("employer", employer);
+        model.addAttribute("userDto", new UserDto());
         return "vacancydetails";
     }
-    @PostMapping
+    @PostMapping(params = "action=response")
     public String sendEmail(@PathVariable("id") Long id, Model model, Principal principal) throws MessagingException {
         Vacancy vacancy = vacancyRepository.findVacancyById(id);
         User user = userService.findUserByEmail(principal.getName());
@@ -44,4 +46,26 @@ public class VacancyDetailController {
         emailSenderService.sendEmail(employerEmail, user, vacancy);
         return "emailsend";
     }
+
+    @PostMapping(params = "action=recommend")
+    public String sendRecommend(@PathVariable("id") Long id, @ModelAttribute("userDto") UserDto userDto, Model model, Principal principal) throws MessagingException {
+        Vacancy vacancy = vacancyRepository.findVacancyById(id);
+        User user = userService.findUserByEmail(principal.getName());
+        Employer employer = vacancy.getEmployer();
+        String employerEmail = employer.getUser().getEmail();
+        emailSenderService.sendRecommendation(employerEmail, user, vacancy, userDto);
+        return "emailsend";
+    }
+
+
+
+//    @PostMapping("/rec")
+//    public String sendRec(@PathVariable("id") Long id, Model model, Principal principal) throws MessagingException {
+//        Vacancy vacancy = vacancyRepository.findVacancyById(id);
+//        User user = userService.findUserByEmail(principal.getName());
+//        Employer employer = vacancy.getEmployer();
+//        String employerEmail = employer.getUser().getEmail();
+//        emailSenderService.sendEmail(employerEmail, user, vacancy);
+//        return "emailsend";
+//    }
 }
