@@ -41,7 +41,7 @@ public class EmailSenderService {
         Session session = Session.getInstance(props);
 
         Transport transport = new SMTPSSLTransport(session, new URLName("smtp.mail.ru"));
-        transport.connect("smtp.mail.ru", "anim24@list.ru","X8whdMBj2UKTftSPBNpn");
+        transport.connect("smtp.mail.ru", "","");
 
         Applicant applicant = applicantRepository.findApplicantByUserId(user.getId());
         Resume resume = resumeRepository.findResumeByApplicantId(applicant.getId());
